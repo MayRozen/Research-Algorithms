@@ -115,15 +115,3 @@ santa-claus-hypergraph/
   ```
 
 ---
-
-## License
-
-[Specify your license here—for example, MIT License]
-
----
-
-## Acknowledgements
-
-- Original paper: **Asadpour, Feige & Saberi**, “Santa Claus Meets Hypergraph Matchings,” STOC 2012.  
-- Implementation inspired by `fairpyx` library structure and notation.  
-- Thanks to May Rozen for coding and testing.
