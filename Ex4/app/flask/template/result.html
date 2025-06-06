@@ -1,0 +1,23 @@
+{% extends "layout.html" %}
+{% block content %}
+<h2 class="mb-4">Algorithm Output</h2>
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Player</th>
+            <th>Assigned Gifts</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for player, gifts in allocation.items() %}
+        <tr>
+            <td>{{ player }}</td>
+            <td>{{ gifts|join(', ') }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+<a href="{{ url_for('setup') }}" class="btn btn-secondary mt-3">&larr; Back to Start</a>
+{% endblock %}
