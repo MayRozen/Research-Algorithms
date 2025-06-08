@@ -1,0 +1,18 @@
+{% extends "layout.html" %}
+{% block content %}
+<form method="POST">
+  <div class="mb-3">
+    <label class="form-label">Number of players</label>
+    <input name="num_players" type="number" class="form-control" min="1" required>
+  </div>
+  <div class="mb-3">
+    <label class="form-label">Number of gifts</label>
+    <input name="num_items" type="number" class="form-control" min="1" required>
+  </div>
+  <div class="mb-3">
+    <label class="form-label">Value per gift</label>
+    <input name="item_value" type="number" step="any" class="form-control" min="0" required>
+  </div>
+  <button class="btn btn-primary">Next →</button>
+</form>
+{% endblock %}

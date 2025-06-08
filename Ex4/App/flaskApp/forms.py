@@ -1,34 +1,16 @@
 from flask_wtf import FlaskForm
 from flask_wtf.file import FileField, FileAllowed
 from wtforms import StringField, PasswordField, SubmitField, BooleanField
-from wtforms.validators import DataRequired, Length, URL, ValidationError
+from wtforms.validators import DataRequired, Length, Regexp
 
 class LoginForm(FlaskForm):
-    username = StringField(
-        'Username',
-        validators=[
-            DataRequired(message="Username is required"),
-            Length(min=2, max=15, message="Username must be between 2 and 20 characters")
-        ]
-    )
-    password = PasswordField(
-        'Password',
-        validators=[
-            DataRequired(message="Password is required"),
-            Length(min=6, message="Password must be at least 6 characters long")
-        ]
-    )
+    username = StringField('Username', validators=[DataRequired()])
+    password = PasswordField('Password', validators=[Length(min=2, max=20)])
     remember = BooleanField('Remember Me')
-    submit = SubmitField('Log In')
+    submit = SubmitField('Submit')
 
 
 class DataForm(FlaskForm):
-    homepage = StringField(
-        'Homepage',
-        validators=[
-            DataRequired(message="Homepage URL is required"),
-            URL(message="Please enter a valid URL (e.g. https://example.com)")
-        ]
-    )
-
+    homepage = StringField("Homepage", validators=[DataRequired(), Regexp("https?://.*")])
+    picture = FileField('Update Profile Picture', validators=[FileAllowed(['jpg', 'png'])])
     submit = SubmitField('Submit')

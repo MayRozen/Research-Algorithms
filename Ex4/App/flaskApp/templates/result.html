@@ -1,0 +1,12 @@
+{% extends "layout.html" %}
+{% block content %}
+<h2>Final allocation</h2>
+<ul class="list-group">
+  {% for player, gifts in allocation.items() %}
+    <li class="list-group-item">
+      {{ player }} → {{ gifts|join(", ") }}
+    </li>
+  {% endfor %}
+</ul>
+<a href="{{ url_for('setup') }}" class="btn btn-link mt-3">Start Over</a>
+{% endblock %}
