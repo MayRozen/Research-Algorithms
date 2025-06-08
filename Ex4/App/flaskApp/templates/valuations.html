@@ -1,41 +1,89 @@
 {% extends "layout.html" %}
 {% block content %}
-<form method="POST" action="{{ url_for('run_algorithm') }}">
-  <input type="hidden" name="num_players" value="{{ num_players }}">
-  <input type="hidden" name="num_items"   value="{{ num_items }}">
-
-  <div class="table-responsive mb-4 d-flex justify-content-center">
-    <table class="table table-bordered text-center align-middle mx-auto" style="width:auto;">
-      <thead class="table-light">
-        <tr>
-          <th></th>
-          {% for j in range(1, num_items+1) %}
-            <th class="fs-5">G{{ j }}</th>
-          {% endfor %}
-        </tr>
-      </thead>
-      <tbody>
-        {% for i in range(1, num_players+1) %}
-          <tr>
-            <th class="fs-6 align-middle">P{{ i }}</th>
-            {% for j in range(1, num_items+1) %}
-              <td>
-                <input
-                  name="v-{{ i }}-{{ j }}"
-                  type="number"
-                  step="any"
-                  class="form-control form-control-lg"
-                  required
-                  placeholder="Value"
-                  value="{{ previous_vals['P'~i]['G'~j] if previous_vals else '' }}">
-              </td>
-            {% endfor %}
-          </tr>
-        {% endfor %}
-      </tbody>
-    </table>
+  <!-- Professional instruction in red, Pacifico font but not bold -->
+  <div id="valueConstraintMessage" class="text-center mb-4" style="color:#FF0000; font-family:'Pacifico', cursive; font-size:1.5rem;">
+    Each gift carries a single fixed value: if a player assigns a non-zero valuation to a gift, it must equal the gift’s fixed value; otherwise, the valuation must be zero.
   </div>
 
-  <button type="submit" class="btn btn-success btn-lg w-100">Run Algorithm</button>
-</form>
+  <form method="POST" action="{{ url_for('run_algorithm') }}">
+    <input type="hidden" name="num_players" value="{{ num_players }}">
+    <input type="hidden" name="num_items"   value="{{ num_items }}">
+
+    <div class="table-responsive mb-4 d-flex justify-content-center">
+      <table class="table table-bordered text-center align-middle mx-auto" style="width:auto;">
+        <thead class="table-light">
+          <tr>
+            <th></th>
+            {% for j in range(1, num_items+1) %}
+              <th class="fs-5">G{{ j }}</th>
+            {% endfor %}
+          </tr>
+        </thead>
+        <tbody>
+          {% for i in range(1, num_players+1) %}
+            <tr>
+              <th class="fs-6 align-middle">P{{ i }}</th>
+              {% for j in range(1, num_items+1) %}
+                <td>
+                  <input
+                    name="v-{{ i }}-{{ j }}"
+                    type="number"
+                    step="any"
+                    class="form-control form-control-lg"
+                    required
+                    placeholder="Value"
+                    value="{{ previous_vals['P'~i]['G'~j] if previous_vals else '' }}">
+                </td>
+              {% endfor %}
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+
+    <button id="submitBtn" type="submit" class="btn btn-success btn-lg w-100" disabled>Run Algorithm</button>
+  </form>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const numItems = {{ num_items }};
+      const submitBtn = document.getElementById('submitBtn');
+      const message = document.getElementById('valueConstraintMessage');
+
+      function validate() {
+        let valid = true;
+        for (let j = 1; j <= numItems; j++) {
+          const inputs = Array.from(document.querySelectorAll(`input[name^=\"v-\"][name$=\"-${j}\"]`));
+          const values = inputs.map(i => parseFloat(i.value) || 0);
+          const nonZero = values.filter(v => v !== 0);
+          if (nonZero.length > 0) {
+            const first = nonZero[0];
+            if (!nonZero.every(v => v === first)) {
+              valid = false;
+              inputs.forEach(i => i.classList.add('is-invalid'));
+            } else {
+              inputs.forEach(i => i.classList.remove('is-invalid'));
+            }
+          } else {
+            inputs.forEach(i => i.classList.remove('is-invalid'));
+          }
+        }
+        if (valid) {
+          submitBtn.disabled = false;
+          message.style.display = 'block';
+          message.style.opacity = '0.6';
+        } else {
+          submitBtn.disabled = true;
+          message.style.display = 'block';
+        }
+      }
+
+      document.querySelectorAll('input[type="number"]').forEach(input => {
+        input.addEventListener('input', validate);
+      });
+
+      // initial check
+      validate();
+    });
+  </script>
 {% endblock %}
