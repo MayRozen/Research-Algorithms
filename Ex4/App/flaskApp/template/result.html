@@ -1,0 +1,18 @@
+{% extends "layout.html" %}
+{% block content %}
+<h2>Final Allocation</h2>
+<table class="table table-striped">
+  <thead>
+    <tr><th>Player</th><th>Gifts</th></tr>
+  </thead>
+  <tbody>
+    {% for p, gifts in allocation.items() %}
+    <tr>
+      <td>{{ p }}</td>
+      <td>{{ gifts | join(', ') if gifts else '(none)' }}</td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+<a href="{{ url_for('setup') }}" class="btn btn-secondary">Start Over</a>
+{% endblock %}

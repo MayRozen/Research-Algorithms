@@ -1,0 +1,26 @@
+{% extends "layout.html" %}
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-6">
+        <form method="POST" action="{{ url_for('valuations') }}">
+            <div class="mb-3">
+                <label for="num_players" class="form-label">Number of Players</label>
+                <input type="number" class="form-control" id="num_players" name="num_players"
+                       min="1" required placeholder="e.g. 3">
+            </div>
+            <div class="mb-3">
+                <label for="num_items" class="form-label">Number of Gifts</label>
+                <input type="number" class="form-control" id="num_items" name="num_items"
+                       min="1" required placeholder="e.g. 4">
+            </div>
+            <div class="mb-3">
+                <label for="item_value" class="form-label">Fixed Value for Each Gift</label>
+                <input type="number" class="form-control" id="item_value" name="item_value"
+                       min="1" required placeholder="e.g. 10">
+                <div class="form-text">All gifts have the same fixed value. Each player will indicate 0 (don’t want) or this value.</div>
+            </div>
+            <button type="submit" class="btn btn-primary">Next &rarr;</button>
+        </form>
+    </div>
+</div>
+{% endblock %}
