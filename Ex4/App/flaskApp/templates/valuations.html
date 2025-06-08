@@ -1,13 +1,20 @@
 {% extends "layout.html" %}
 {% block content %}
-  <!-- Professional instruction in red, Pacifico font but not bold -->
-  <div id="valueConstraintMessage" class="text-center mb-4" style="color:#FF0000; font-family:'Pacifico', cursive; font-size:1.5rem;">
+<div class="container mx-auto" style="max-width:900px;">
+
+  <!-- Constraint explanation -->
+  <div id="valueConstraintMessage" class="explanation-text">
     Each gift carries a single fixed value: if a player assigns a non-zero valuation to a gift, it must equal the gift’s fixed value; otherwise, the valuation must be zero.
   </div>
 
+  <!-- Example button -->
+  <button type="button" id="exampleBtn" class="explanation-text btn mb-4">
+    Example
+  </button>
+
   <form method="POST" action="{{ url_for('run_algorithm') }}">
     <input type="hidden" name="num_players" value="{{ num_players }}">
-    <input type="hidden" name="num_items"   value="{{ num_items }}">
+    <input type="hidden" name="num_items" value="{{ num_items }}">
 
     <div class="table-responsive mb-4 d-flex justify-content-center">
       <table class="table table-bordered text-center align-middle mx-auto" style="width:auto;">
@@ -32,7 +39,8 @@
                     class="form-control form-control-lg"
                     required
                     placeholder="Value"
-                    value="{{ previous_vals['P'~i]['G'~j] if previous_vals else '' }}">
+                    value="{{ previous_vals['P'~i]['G'~j] if previous_vals else '' }}"
+                  >
                 </td>
               {% endfor %}
             </tr>
@@ -46,14 +54,28 @@
 
   <script>
     document.addEventListener('DOMContentLoaded', () => {
+      const numPlayers = {{ num_players }};
       const numItems = {{ num_items }};
       const submitBtn = document.getElementById('submitBtn');
+      const exampleBtn = document.getElementById('exampleBtn');
       const message = document.getElementById('valueConstraintMessage');
 
+      // Fill example values
+      exampleBtn.addEventListener('click', () => {
+        for (let i = 1; i <= numPlayers; i++) {
+          for (let j = 1; j <= numItems; j++) {
+            const input = document.querySelector(`input[name="v-${i}-${j}"]`);
+            input.value = (i === j) ? i : 0;
+          }
+        }
+        validate();
+      });
+
+      // Validation logic
       function validate() {
         let valid = true;
         for (let j = 1; j <= numItems; j++) {
-          const inputs = Array.from(document.querySelectorAll(`input[name^=\"v-\"][name$=\"-${j}\"]`));
+          const inputs = Array.from(document.querySelectorAll(`input[name^="v-"][name$="-${j}"]`));
           const values = inputs.map(i => parseFloat(i.value) || 0);
           const nonZero = values.filter(v => v !== 0);
           if (nonZero.length > 0) {
@@ -70,11 +92,9 @@
         }
         if (valid) {
           submitBtn.disabled = false;
-          message.style.display = 'block';
           message.style.opacity = '0.6';
         } else {
           submitBtn.disabled = true;
-          message.style.display = 'block';
         }
       }
 
@@ -82,8 +102,9 @@
         input.addEventListener('input', validate);
       });
 
-      // initial check
+      // Initial check
       validate();
     });
   </script>
+</div>
 {% endblock %}
