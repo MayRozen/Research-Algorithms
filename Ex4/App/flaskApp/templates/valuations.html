@@ -2,41 +2,43 @@
 {% block content %}
 <form method="POST" action="{{ url_for('run_algorithm') }}">
   <input type="hidden" name="num_players" value="{{ num_players }}">
-  <input type="hidden" name="num_items" value="{{ num_items }}">
-  <input type="hidden" name="item_value" value="{{ item_value }}">
+  <input type="hidden" name="num_items"   value="{{ num_items }}">
+  <input type="hidden" name="item_value"  value="{{ item_value }}">
 
-  <table class="table table-bordered">
-    <thead>
-      <tr>
-        <th>Player \ Gift</th>
-        {% for j in range(1, num_items+1) %}
-          <th>G{{ j }}</th>
+  <div class="table-responsive mb-4">
+    <table class="table table-bordered text-center align-middle">
+      <thead class="table-light">
+        <tr>
+          <th class="fs-5">Player \ Gift</th>
+          {% for j in range(1, num_items+1) %}
+            <th class="fs-5">G{{ j }}</th>
+          {% endfor %}
+        </tr>
+      </thead>
+      <tbody>
+        {% for i in range(1, num_players+1) %}
+          <tr>
+            <th class="fs-6 align-middle">P{{ i }}</th>
+            {% for j in range(1, num_items+1) %}
+              <td>
+                <select name="v-{{ i }}-{{ j }}" class="form-select form-select-lg" required>
+                  <option value="0"
+                    {% if previous_vals and previous_vals['P'~i]['G'~j]==0 %}selected{% endif %}>
+                    0
+                  </option>
+                  <option value="{{ item_value }}"
+                    {% if previous_vals and previous_vals['P'~i]['G'~j]==item_value %}selected{% endif %}>
+                    {{ item_value }}
+                  </option>
+                </select>
+              </td>
+            {% endfor %}
+          </tr>
         {% endfor %}
-      </tr>
-    </thead>
-    <tbody>
-      {% for i in range(1, num_players+1) %}
-      <tr>
-        <th>P{{ i }}</th>
-        {% for j in range(1, num_items+1) %}
-        <td>
-          <select name="v-{{ i }}-{{ j }}" class="form-select" required>
-            <option value="0"
-              {% if previous_vals and previous_vals['P'~i]['G'~j]==0 %}selected{% endif %}>
-              0
-            </option>
-            <option value="{{ item_value }}"
-              {% if previous_vals and previous_vals['P'~i]['G'~j]==item_value %}selected{% endif %}>
-              {{ item_value }}
-            </option>
-          </select>
-        </td>
-        {% endfor %}
-      </tr>
-      {% endfor %}
-    </tbody>
-  </table>
+      </tbody>
+    </table>
+  </div>
 
-  <button class="btn btn-success">Run Algorithm</button>
+  <button type="submit" class="btn btn-success btn-lg w-100">Run Algorithm</button>
 </form>
 {% endblock %}

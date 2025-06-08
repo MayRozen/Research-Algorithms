@@ -10,19 +10,19 @@ def setup():
     if request.method == "POST":
         try:
             num_players = int(request.form["num_players"])
-            num_items   = int(request.form["num_items"])
-            item_value  = float(request.form["item_value"])
-        except (KeyError, ValueError):
-            flash("Please enter valid numbers.", "danger")
+            num_items = int(request.form["num_items"])
+            if num_players < 1 or num_items < 1:
+                raise ValueError
+        except:
+            flash("Please enter integers ≥ 1", "danger")
             return redirect(url_for("setup"))
 
         return render_template(
             "valuations.html",
             num_players=num_players,
-            num_items=num_items,
-            item_value=item_value,
-            previous_vals=None
+            num_items=num_items
         )
+
     return render_template("setup.html")
 
 @app.route("/")
