@@ -1,26 +1,48 @@
 {% extends "layout.html" %}
 {% block content %}
-<form method="POST" action="{{ url_for('setup') }}">
-  <div class="mb-3">
-    <label for="num_players" class="form-label">Number of Players</label>
-    <input
-      type="number"
-      class="form-control form-control-lg"
-      id="num_players"
-      name="num_players"
-      min="1"
-      required>
+  <!-- Full-page snowflake background -->
+  <style>
+    body {
+      background-image: url('{{ url_for('static', filename='images/snowflake.png') }}');
+      background-repeat: repeat;
+      background-size: auto;
+    }
+  </style>
+
+  <div class="d-flex align-items-center">
+    <!-- Form on the left -->
+    <div class="flex-grow-1 pe-3">
+      <form method="POST" action="{{ url_for('setup') }}">
+        <div class="mb-3">
+          <label for="num_players" class="form-label">Number of Players</label>
+          <input
+            type="number"
+            class="form-control form-control-lg"
+            id="num_players"
+            name="num_players"
+            min="1"
+            required>
+        </div>
+        <div class="mb-3">
+          <label for="num_items" class="form-label">Number of Gifts</label>
+          <input
+            type="number"
+            class="form-control form-control-lg"
+            id="num_items"
+            name="num_items"
+            min="1"
+            required>
+        </div>
+        <button type="submit" class="btn btn-primary btn-lg w-100">Next</button>
+      </form>
+    </div>
+    <!-- Santa Claus and gifts image on the right -->
+    <div class="flex-shrink-0">
+      <img
+        src="{{ url_for('static', filename='images/santa_gifts.png') }}"
+        alt="Santa Claus and Gifts"
+        class="img-fluid"
+        style="max-height: 300px;">
+    </div>
   </div>
-  <div class="mb-3">
-    <label for="num_items" class="form-label">Number of Gifts</label>
-    <input
-      type="number"
-      class="form-control form-control-lg"
-      id="num_items"
-      name="num_items"
-      min="1"
-      required>
-  </div>
-  <button type="submit" class="btn btn-primary btn-lg w-100">Next</button>
-</form>
 {% endblock %}

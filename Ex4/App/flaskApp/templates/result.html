@@ -1,12 +1,17 @@
 {% extends "layout.html" %}
 {% block content %}
-<h2>Final allocation</h2>
-<ul class="list-group">
-  {% for player, gifts in allocation.items() %}
-    <li class="list-group-item">
-      {{ player }} → {{ gifts|join(", ") }}
-    </li>
-  {% endfor %}
-</ul>
-<a href="{{ url_for('setup') }}" class="btn btn-link mt-3">Start Over</a>
+  <!-- Styled final allocation header matching valuations page -->
+  <div id="finalAllocationMessage" class="text-center mb-4" style="color:#FF0000; font-family:'Pacifico', cursive; font-size:1.5rem; font-weight:normal;">
+    Final Allocation
+  </div>
+
+  <ul class="list-group">
+    {% for player, gifts in allocation.items() %}
+      <li class="list-group-item">
+        {{ player }} → {{ gifts|join(", ") }}
+      </li>
+    {% endfor %}
+  </ul>
+
+  <a href="{{ url_for('setup') }}" class="btn btn-link mt-3">Start Over</a>
 {% endblock %}
