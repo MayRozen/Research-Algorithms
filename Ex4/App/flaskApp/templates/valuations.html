@@ -3,13 +3,12 @@
 <form method="POST" action="{{ url_for('run_algorithm') }}">
   <input type="hidden" name="num_players" value="{{ num_players }}">
   <input type="hidden" name="num_items"   value="{{ num_items }}">
-  <input type="hidden" name="item_value"  value="{{ item_value }}">
 
-  <div class="table-responsive mb-4">
-    <table class="table table-bordered text-center align-middle">
+  <div class="table-responsive mb-4 d-flex justify-content-center">
+    <table class="table table-bordered text-center align-middle mx-auto" style="width:auto;">
       <thead class="table-light">
         <tr>
-          <th class="fs-5">Player \ Gift</th>
+          <th></th>
           {% for j in range(1, num_items+1) %}
             <th class="fs-5">G{{ j }}</th>
           {% endfor %}
@@ -21,16 +20,14 @@
             <th class="fs-6 align-middle">P{{ i }}</th>
             {% for j in range(1, num_items+1) %}
               <td>
-                <select name="v-{{ i }}-{{ j }}" class="form-select form-select-lg" required>
-                  <option value="0"
-                    {% if previous_vals and previous_vals['P'~i]['G'~j]==0 %}selected{% endif %}>
-                    0
-                  </option>
-                  <option value="{{ item_value }}"
-                    {% if previous_vals and previous_vals['P'~i]['G'~j]==item_value %}selected{% endif %}>
-                    {{ item_value }}
-                  </option>
-                </select>
+                <input
+                  name="v-{{ i }}-{{ j }}"
+                  type="number"
+                  step="any"
+                  class="form-control form-control-lg"
+                  required
+                  placeholder="Value"
+                  value="{{ previous_vals['P'~i]['G'~j] if previous_vals else '' }}">
               </td>
             {% endfor %}
           </tr>
