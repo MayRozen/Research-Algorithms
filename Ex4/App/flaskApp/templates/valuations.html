@@ -8,6 +8,14 @@
   <div id="algorithmExplanationMessage" class="text-center mb-4" style="color:#FF0000; font-family:'Pacifico', cursive; font-size:1.5rem; font-weight:normal;">
     Each gift carries a single fixed value: if a player assigns a non-zero valuation to a gift, it must equal the gift’s fixed value; otherwise, the valuation must be zero.
   </div>
+  <!-- Error message when constraint violated -->
+  <div
+    id="constraintErrorMessage"
+    class="text-danger mb-3"
+    style="display: none;"
+  >
+    Each gift must have the same non-zero value for all players, or zero if not chosen.
+  </div>
 
   <!-- Example button -->
   <button type="button" id="exampleBtn" class="explanation-text btn mb-4">
@@ -56,6 +64,7 @@
 
   <script>
     document.addEventListener('DOMContentLoaded', () => {
+      const errorDiv = document.getElementById('constraintErrorMessage');
       const numPlayers = {{ num_players }};
       const numItems = {{ num_items }};
       const submitBtn = document.getElementById('submitBtn');
@@ -95,8 +104,10 @@
         if (valid) {
           submitBtn.disabled = false;
           message.style.opacity = '0.6';
+          errorDiv.style.display = 'none';
         } else {
           submitBtn.disabled = true;
+          errorDiv.style.display = 'block';
         }
       }
 
