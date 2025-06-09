@@ -1,4 +1,4 @@
-# Here, we add a secret key:
+# Here, we add a secret key and initializing the Flask app
 
 from flask import Flask, render_template
 

@@ -9,8 +9,8 @@ from fairpyx.allocations import AllocationBuilder
 def setup():
     if request.method == "POST":
         try:
-            num_players = int(request.form["num_players"])
-            num_items   = int(request.form["num_items"])
+            num_players = int(request.form["num_players"]) # Entering multiple players
+            num_items   = int(request.form["num_items"]) # Entering multiple gifts
             if num_players < 1 or num_items < 1:
                 raise ValueError
         except:
@@ -35,6 +35,7 @@ def run_algorithm():
         flash("Session expired—please start over.", "warning")
         return redirect(url_for("setup"))
 
+    # Reads the number of players and items from the form
     players = [f"P{i}" for i in range(1, num_players+1)]
     items   = [f"G{j}" for j in range(1, num_items+1)]
 
@@ -59,6 +60,6 @@ def run_algorithm():
         item_capacities=item_caps
     )
     builder    = AllocationBuilder(instance=instance)
-    final_alloc = santa_claus_main(builder)
+    final_alloc = santa_claus_main(builder) # Running the algorithm
 
     return render_template("result.html", allocation=final_alloc)

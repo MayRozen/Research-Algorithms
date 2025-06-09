@@ -1,3 +1,5 @@
+# Running the server
+
 import dotenv, os
 dotenv.load_dotenv()  # load FLASK_RUN_PORT
 

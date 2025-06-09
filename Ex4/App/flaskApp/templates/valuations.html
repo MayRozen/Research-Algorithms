@@ -1,9 +1,11 @@
+<!-- The second page -> Displays a dynamic table of input cells for each player-gift combination -->
+
 {% extends "layout.html" %}
 {% block content %}
-<div class="container mx-auto" style="max-width:900px;">
+<div class="container mx-auto" style="max-width:900px; color:#FF0000; text-align:center;">
 
   <!-- Constraint explanation -->
-  <div id="valueConstraintMessage" class="explanation-text">
+  <div id="algorithmExplanationMessage" class="text-center mb-4" style="color:#FF0000; font-family:'Pacifico', cursive; font-size:1.5rem; font-weight:normal;">
     Each gift carries a single fixed value: if a player assigns a non-zero valuation to a gift, it must equal the gift’s fixed value; otherwise, the valuation must be zero.
   </div>
 
