@@ -1,9 +1,14 @@
 from flask import render_template, request, redirect, url_for, flash
 from flaskApp import app
 
-from fairpyx.algorithms.Santa_Algorithm import santa_claus_main
+from fairpyx.algorithms.Santa_Algorithm import santa_claus_main, logger as algo_logger
 from fairpyx.instances import Instance
 from fairpyx.allocations import AllocationBuilder
+
+import logging,io
+from logging import StreamHandler
+
+logger = logging.getLogger(__name__)
 
 @app.route("/", methods=["GET", "POST"])
 def setup():
@@ -28,6 +33,12 @@ def setup():
 
 @app.route("/run", methods=["POST"])
 def run_algorithm():
+    log_stream = io.StringIO()
+    stream_handler = StreamHandler(log_stream)
+    stream_handler.setLevel(logging.DEBUG)
+    algo_logger.addHandler(stream_handler)
+    algo_logger.setLevel(logging.DEBUG)
+
     try:
         num_players = int(request.form["num_players"])
         num_items   = int(request.form["num_items"])
@@ -62,4 +73,11 @@ def run_algorithm():
     builder    = AllocationBuilder(instance=instance)
     final_alloc = santa_claus_main(builder) # Running the algorithm
 
-    return render_template("result.html", allocation=final_alloc)
+    algo_logger.removeHandler(stream_handler)
+    logs = log_stream.getvalue().splitlines()
+
+    return render_template(
+        "result.html",
+        allocation=final_alloc,
+        logs=logs
+    )

@@ -2,6 +2,17 @@
 
 {% extends "layout.html" %}
 {% block content %}
+
+  <!-- כפתור לפתיחת החלון -->
+  <button
+    type="button"
+    class="btn btn-primary mb-3"
+    data-bs-toggle="modal"
+    data-bs-target="#logsModal"
+  >
+    Show Logs
+  </button>
+
   <!-- Styled final allocation header matching valuations page -->
   <div id="finalAllocationMessage" class="text-center mb-4" style="color:#FF0000; font-family:'Pacifico', cursive; font-size:1.5rem; font-weight:normal;">
     Final Allocation
@@ -16,4 +27,24 @@
   </ul>
 
   <a href="{{ url_for('setup') }}" class="btn btn-link mt-3">Start Over</a>
+
+  <!-- Logs Modal -->
+  <div class="modal fade" id="logsModal" tabindex="-1" aria-labelledby="logsModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-scrollable">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="logsModalLabel">Algorithm Logs</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body" style="max-height:60vh; overflow-y:auto;">
+          <pre style="white-space: pre-wrap;">{{ logs|join('\n') }}</pre>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
 {% endblock %}
