@@ -2,6 +2,28 @@
 
 {% extends "layout.html" %}
 {% block content %}
+
+<!-- כפתור "The Article" בצד ימין למעלה של ה-form-container -->
+  <div class="w-100 d-flex justify-content-between mb-3">
+    <!-- About Me -->
+    <button
+      type="button"
+      class="btn explanation-text"
+      data-bs-toggle="modal"
+      data-bs-target="#aboutModal"
+    >
+      About Me
+    </button>
+    <!-- The Article -->
+    <a
+      href="https://dl.acm.org/doi/10.1145/2229163.2229168"
+      class="btn explanation-text"
+      target="_blank"
+    >
+      The Article
+    </a>
+  </div>
+
   <div class="container mx-auto" style="max-width:900px;">
 
   <!-- Full-page snowflake background -->
@@ -56,4 +78,54 @@
         style="max-height: 300px;">
     </div>
   </div>
+
+    <!-- About Me Modal -->
+  <div
+    class="modal fade"
+    id="aboutModal"
+    tabindex="-1"
+    aria-labelledby="aboutModalLabel"
+    aria-hidden="true"
+  >
+    <div class="modal-dialog">
+      <div class="modal-content text-dark">
+        <div class="modal-header">
+          <h5 class="modal-title" id="aboutModalLabel">About Me</h5>
+          <button
+            type="button"
+            class="btn-close"
+            data-bs-dismiss="modal"
+            aria-label="Close"
+          ></button>
+        </div>
+        <div class="modal-body text-start">
+          <p>
+            Hello,<br>
+            I’m <strong>May Rozen</strong>, currently completing my third year of a B.Sc. in Computer Science at Ariel University.<br>
+            I serve in the reserves as a C4I Communications Officer in the Home Front Command and work as a Python instructor for the children’s programming club <strong>MindPlay</strong>.<br>
+            I have a strong passion for Machine Learning and AI; I recently completed a Deep Learning & Neural Networks course on the Learning AI platform and I’m working on some related projects.
+          </p>
+
+          <br>
+
+          <h6>Links</h6>
+          <ul class="ps-0">
+            <li><a href="https://github.com/MayRozen" target="_blank">GitHub</a></li>
+            <li><a href="https://www.linkedin.com/in/may-rozen-4b07bb324?" target="_blank">LinkedIn</a></li>
+            <li><a href="mailto:mayrozen45@gmail.com">mayrozen45@gmail.com</a></li>
+          </ul>
+        </div>
+        <div class="modal-footer">
+          <button
+            type="button"
+            class="btn btn-secondary"
+            data-bs-dismiss="modal"
+          >
+            Close
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
 {% endblock %}
