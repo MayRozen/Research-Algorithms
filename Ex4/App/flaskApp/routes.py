@@ -1,7 +1,7 @@
 from flask import render_template, request, redirect, url_for, flash
 from flaskApp import app
 
-from fairpyx.algorithms.Santa_Algorithm import santa_claus_main, logger as algo_logger
+from fairpyx.algorithms.santa_algorithm import santa_claus_main, logger as algo_logger
 from fairpyx.instances import Instance
 from fairpyx.allocations import AllocationBuilder
 

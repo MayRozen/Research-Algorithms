@@ -1,3 +1,4 @@
+fairpyx @ git+https://github.com/MayRozen/fairpyx.git
 hypernetx
 cvxpy
 dotenv

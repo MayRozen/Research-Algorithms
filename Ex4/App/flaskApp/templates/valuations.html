@@ -73,41 +73,59 @@
 
       // Fill example values
       exampleBtn.addEventListener('click', () => {
-        for (let i = 1; i <= numPlayers; i++) {
-          for (let j = 1; j <= numItems; j++) {
+        for (let j = 1; j <= numItems; j++) { // the presents
+          // random value between 1-10 != 0
+          const valueForGift = Math.floor(Math.random() * 10) + 1;
+
+          const selectedPlayers = []; // the players
+          for (let i = 1; i <= numPlayers; i++) {
+            if (Math.random() < 0.7) {
+              selectedPlayers.push(i); // 70% probability to be chosen
+            }
+          }
+
+          // if no one is in selectedPlayers -> choose randomly one
+          if (selectedPlayers.length === 0) {
+            selectedPlayers.push(Math.floor(Math.random() * numPlayers) + 1);
+          }
+
+          // fill the 0 values
+          for (let i = 1; i <= numPlayers; i++) {
             const input = document.querySelector(`input[name="v-${i}-${j}"]`);
-            input.value = (i === j) ? i : 0;
+            input.value = selectedPlayers.includes(i) ? valueForGift : 0;
           }
         }
-        validate();
+
+        validate(); // Integrity check
       });
+
 
       // Validation logic
       function validate() {
         let valid = true;
-        for (let j = 1; j <= numItems; j++) {
-          const inputs = Array.from(document.querySelectorAll(`input[name^="v-"][name$="-${j}"]`));
-          const values = inputs.map(i => parseFloat(i.value) || 0);
-          const nonZero = values.filter(v => v !== 0);
+        for (let j = 1; j <= numItems; j++) { // the presents
+          const inputs = Array.from(document.querySelectorAll(`input[name^="v-"][name$="-${j}"]`)); // inputs
+          const values = inputs.map(i => parseFloat(i.value) || 0); // from string to float
+          const nonZero = values.filter(v => v !== 0); // only the non-zero values
           if (nonZero.length > 0) {
-            const first = nonZero[0];
-            if (!nonZero.every(v => v === first)) {
+            const first = nonZero[0]; // the first value which need to be the gifts value
+            if (!nonZero.every(v => v === first)) { // if there is a different value
               valid = false;
-              inputs.forEach(i => i.classList.add('is-invalid'));
+              inputs.forEach(i => i.classList.add('is-invalid')); // adding an error
             } else {
-              inputs.forEach(i => i.classList.remove('is-invalid'));
+              inputs.forEach(i => i.classList.remove('is-invalid')); // removing the error if it is still exist
             }
           } else {
-            inputs.forEach(i => i.classList.remove('is-invalid'));
+            inputs.forEach(i => i.classList.remove('is-invalid')); // removing the error if it is still exist
           }
         }
         if (valid) {
-          submitBtn.disabled = false;
+          submitBtn.disabled = false; // Allows to click the Run Algorithm button
           message.style.opacity = '0.6';
           errorDiv.style.display = 'none';
-        } else {
+        } else { // Disabling the "next" button
           submitBtn.disabled = true;
-          errorDiv.style.display = 'block';
+          errorDiv.style.display = 'block'; // !!!!
         }
       }
 
